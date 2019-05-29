@@ -6,8 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "lint": "npm run lint:ts && npm run lint:style",
+    "lint:ts": "tslint -p tsconfig.app.json -c tslint.json 'src/**/*.ts' --fix",
+    "lint:style": "stylelint 'src/**/*.less' --syntax less --fix"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +44,32 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.4.3"
+    "typescript": "~3.4.3",
+    "husky": "^1.0.1",
+    "lint-staged": "^8.1.7",
+    "tslint-config-prettier": "^1.18.0",
+    "prettier": "^1.17.1",
+    "prettier-stylelint": "^0.4.2",
+    "stylelint": "^10.0.1",
+    "stylelint-config-prettier": "^5.1.0",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^18.3.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.1.0",
+    "stylelint-order": "^3.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run lint:ts",
+      "git add"
+    ],
+    "src/**/*.less": [
+      "npm run lint:style",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
